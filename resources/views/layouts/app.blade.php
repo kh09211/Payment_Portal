@@ -10,7 +10,9 @@
     <title>{{ config('app.name', 'Laravel') }}</title>
 
     <!-- Scripts -->
+    <script src="https://js.stripe.com/v3/" type="text/javascript"></script>
     <script src="{{ asset('js/app.js') }}" defer></script>
+   
 
     <!-- Fonts -->
     <link rel="dns-prefetch" href="//fonts.gstatic.com">
@@ -18,14 +20,29 @@
 
     <!-- Styles -->
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
+    @yield('css')
+    <style>
+        .divider {
+            width: 100%;
+            height: 10px;
+            background-color: #68D4DB;
+        }
+        .navbar-brand {
+            color: #3399CC !important;
+        }
+    </style>
+
 </head>
 <body>
     <div id="app">
         <nav class="navbar navbar-expand-md navbar-light bg-white shadow-sm">
             <div class="container">
-                <a class="navbar-brand" href="{{ url('/') }}">
-                    {{ config('app.name', 'Laravel') }}
-                </a>
+                <div>
+                    <img src="{{ asset('images/gear.png') }}" alt="gear" style="width: 30px" class="mr-1 mr-md-2">
+                    <a class="navbar-brand" href="{{ url('/home') }}">
+                        Payment Portal
+                    </a>
+                </div>
                 <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="{{ __('Toggle navigation') }}">
                     <span class="navbar-toggler-icon"></span>
                 </button>
@@ -44,9 +61,11 @@
                                 <a class="nav-link" href="{{ route('login') }}">{{ __('Login') }}</a>
                             </li>
                             @if (Route::has('register'))
+    {{--
                                 <li class="nav-item">
                                     <a class="nav-link" href="{{ route('register') }}">{{ __('Register') }}</a>
                                 </li>
+    --}}
                             @endif
                         @else
                             <li class="nav-item dropdown">
@@ -71,10 +90,13 @@
                 </div>
             </div>
         </nav>
-
+        <div class="divider"></div>
         <main class="py-4">
             @yield('content')
         </main>
     </div>
+     
+    @stack('js')
+
 </body>
 </html>

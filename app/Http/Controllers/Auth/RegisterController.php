@@ -8,6 +8,8 @@ use App\User;
 use Illuminate\Foundation\Auth\RegistersUsers;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
+use \App\Invoice;
+use \Illuminate\Support\Facades\Gate;
 
 class RegisterController extends Controller
 {
@@ -36,9 +38,12 @@ class RegisterController extends Controller
      *
      * @return void
      */
+
     public function __construct()
     {
-        $this->middleware('guest');
+        // this below is no longer needed since policys by default reject non-logged in users
+        // Make sure that the user is signed in
+        // this->middleware('auth');
     }
 
     /**
@@ -64,10 +69,22 @@ class RegisterController extends Controller
      */
     protected function create(array $data)
     {
+        // uses the InvoicePolicy to determine if the user is admin (authorize method only available on Classes that extednd the Controller class)
+        $this->authorize('create', Invoice::class);
+        
         return User::create([
             'name' => $data['name'],
             'email' => $data['email'],
             'password' => Hash::make($data['password']),
         ]);
+    }
+
+    // This method overrides the method in the trait, allowing use of the controller authorize method and using the Invoice policy to determine if the user is admin. Gate could also be used possibly. Traits override the parent class and child classe's methods override the trait's methods
+    public function showRegistrationForm()
+    {
+        // Make sure that the user is admin
+        $this->authorize('create', Invoice::class);
+
+        return view('auth.register');
     }
 }

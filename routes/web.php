@@ -13,10 +13,26 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
+
 Route::get('/', function () {
-    return view('welcome');
+    return view('test'); // THIS NEEDS TO BE FIXED
 });
 
 Auth::routes();
 
 Route::get('/home', 'HomeController@index')->name('home');
+Route::resource('/invoices','InvoiceController');
+Route::get('/transactions', 'TransactionController@index');
+Route::get('/transactions/{transaction}', 'TransactionController@show');
+Route::post('/transactions', 'TransactionController@store');
+
+// route invoices numbers on the / to the invoice view using 'implicit route model binding'
+/*
+Route::get('/{invoice}',function(\App\Invoice $invoice) {
+	dd({})
+	return view('invoices.show', compact('invoice'));
+});
+*/
+Route::get('/{invoice}',function($invoice) {
+	return redirect('/invoices/' . $invoice);
+});
