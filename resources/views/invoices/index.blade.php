@@ -30,6 +30,9 @@
       <li class="nav-item">
         <a class="nav-link" href="invoices/create">New Invoice</a>
       </li>
+      <li class="nav-item">
+        <a class="nav-link" href="/transactions">Transactions</a>
+      </li>
     </ul>      
     
     <div class="row justify-content-center">
@@ -69,7 +72,9 @@
                                 <form action="/invoices/{{ $invoice->id }}" method="POST">
                                     @csrf
                                     @method('DELETE')
-                                    <input type="image" id="trash" src="{{ asset('images/trash.png') }}">
+                                    @if(! $invoice->paid)
+                                      <input type="image" id="trash" src="{{ asset('images/trash.png') }}">
+                                    @endif
                                 </form>
                               </td>
                             </tr>

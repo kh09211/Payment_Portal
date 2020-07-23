@@ -28,7 +28,8 @@ class HomeController extends Controller
     {
         if (Gate::allows('see-admin')) {
             
-            return view('admin');
+            // for now redirect to invoice index since all current operations can be handled from there
+            return redirect('/invoices');
             
         } else {
 

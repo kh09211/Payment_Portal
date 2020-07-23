@@ -78,10 +78,10 @@ class InvoiceController extends Controller
         // run data var through the conversion function
         $data = $this->convert($data);
 
-        // if itemized checked, start the array note:removed json_encode
+        // if itemized checked, convert to json or null so that it can be insered into database
         if (isset($data['itemized'])) {
             if ($data['itemized'] == 'checked') {
-                $data['itemized'] = [['Hours' => 'Task Description']];
+                $data['itemized'] = json_encode([['Hours' => 'Task Description']]);
             }
         } else {
 
@@ -155,20 +155,21 @@ class InvoiceController extends Controller
             // validate the update request, $request->all() returns the array
             $newItem = $this->itemValidator($request->all())->validate();
             
-            // Add the new item to the invoice note:removed json_decode
-            $itemized = $invoice->itemized;
+            // Decode json obj into array and Add the new item to the invoice
+            $itemized = json_decode($invoice->itemized, true);
             $itemized[] = $newItem;
 
             // set new hours and price to the invoice
             $this->calcNewItemizedHoursAndPrice($invoice, $itemized);
 
-            // save all the new stuff note:removed json_encode due to casts
-            $invoice->itemized = $itemized;
+            // encode to json the itemized array and save all the new stuff
+            $encoded = json_encode($itemized);
+            $invoice->itemized = $encoded;
             $invoice->save();
 
         } else {
 
-            // validate seporately items to be removed and update invoice var
+            // validate seporately items to be removed and modify the json object then re-encode and update invoice var
             if ($request->input('remove-items') && is_array($request->input('remove-items'))) { 
 
                 // check to see if it is an itemized invoice then decode to var
@@ -185,8 +186,10 @@ class InvoiceController extends Controller
                 // set new hours and price to the invoice
                 $this->calcNewItemizedHoursAndPrice($invoice, $itemizedRekeyed);
                 
-                // set to invoice
-                $invoice->itemized = $itemizedRekeyed;
+                $encoded = json_encode($itemizedRekeyed);
+
+                // set updated json encoded object to invoice
+                $invoice->itemized = $encoded;
 
             }
 
@@ -194,7 +197,7 @@ class InvoiceController extends Controller
             //validate the update request, $request->all() returns the array
             $data = $this->validator($request->all())->validate();
 
-            //convert the data to floats and boolean
+            //convert the data to floats and boolean and itemized array to json
             $data = $this->convert($data);
 
             // update the object properties with the validated and converted data 
@@ -309,7 +312,7 @@ class InvoiceController extends Controller
         // this function is to be used before sending an $itemized variable to the view with compact
 
         if (isset($invoice->itemized)) {
-            $itemized = $invoice->itemized;
+            $itemized = json_decode($invoice->itemized, true);
 
             return (isset($itemized[1])) ? $itemized : ['no_items']; // check to see if there are items note: that index 0 is not an item
         } else {
@@ -342,7 +345,6 @@ class InvoiceController extends Controller
 
     public function mail(Invoice $invoice) {
         // send invoice notification email to the customer
-
         mail::send(new \App\Mail\NewInvoice($invoice));
     }
 }

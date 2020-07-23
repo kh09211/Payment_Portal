@@ -10,6 +10,9 @@ class Invoice extends Model
     // enables soft deletes meaning invoices only get a deleted_at attribute
     use softDeletes;
 
+    // use attribute casting so that jason_encode/decode no longer needed. automatic
+    protected $casts = ['itemized' => 'array'];
+
 	// $attributes property in a model sets the default attibute for an object
 	protected $attributes = [
 		'paid' => false

@@ -37,7 +37,7 @@ class TransactionPolicy
     public function view(User $user, Transaction $transaction)
     {
         // allow only the logged in user or the admin to view a transaction
-        // rewritten to show that the befor function handles the admin determination before this is ran
+        // rewritten to show that the before function handles the admin determination before this is ran
         // return ($user->email == env('ADMIN_EMAIL') || $user->id == $transaction->user_id);
         return ($user->id == $transaction->user_id);
     }

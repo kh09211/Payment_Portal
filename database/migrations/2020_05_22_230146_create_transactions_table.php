@@ -18,7 +18,7 @@ class CreateTransactionsTable extends Migration
             $table->timestamps();
             $table->unsignedBigInteger('invoice_id');
             $table->string('payment_method');
-            $table->unsignedBigInteger('user_id');
+            $table->unsignedBigInteger('user_id')->nullable();
 
             $table->index('invoice_id');
             $table->index('user_id');

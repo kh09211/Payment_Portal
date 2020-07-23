@@ -57,16 +57,16 @@
                     <ul class="navbar-nav ml-auto">
                         <!-- Authentication Links -->
                         @guest
+    {{--
                             <li class="nav-item">
                                 <a class="nav-link" href="{{ route('login') }}">{{ __('Login') }}</a>
                             </li>
                             @if (Route::has('register'))
-    {{--
                                 <li class="nav-item">
                                     <a class="nav-link" href="{{ route('register') }}">{{ __('Register') }}</a>
                                 </li>
-    --}}
                             @endif
+    --}}
                         @else
                             <li class="nav-item dropdown">
                                 <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
@@ -94,6 +94,11 @@
         <main class="py-4">
             @yield('content')
         </main>
+        <footer>
+            <div class="container text-center my-4">
+                <h4 style="color: #696969;">&copy kyleweb.dev</h4>
+            </div>
+        </footer>
     </div>
      
     @stack('js')

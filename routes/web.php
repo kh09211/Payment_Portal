@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use Illuminate\Http\Request;
 
 /*
 |--------------------------------------------------------------------------
@@ -15,24 +16,30 @@ use Illuminate\Support\Facades\Route;
 
 
 Route::get('/', function () {
-    return view('test'); // THIS NEEDS TO BE FIXED
+    return view('welcome');
 });
 
 Auth::routes();
 
 Route::get('/home', 'HomeController@index')->name('home');
+
+// bind invoices to the mail route using 'implicit route model binding'
+Route::get('/invoices/{invoice}/mail', 'InvoiceController@mail');
+
 Route::resource('/invoices','InvoiceController');
+
+// route invoices numbers on the / to the invoice view using a redirect
+Route::get('/{invoice}',function($invoice) {
+	return redirect('/invoices/' . $invoice);
+});
+
 Route::get('/transactions', 'TransactionController@index');
 Route::get('/transactions/{transaction}', 'TransactionController@show');
 Route::post('/transactions', 'TransactionController@store');
 
-// route invoices numbers on the / to the invoice view using 'implicit route model binding'
-/*
-Route::get('/{invoice}',function(\App\Invoice $invoice) {
-	dd({})
-	return view('invoices.show', compact('invoice'));
-});
-*/
-Route::get('/{invoice}',function($invoice) {
-	return redirect('/invoices/' . $invoice);
-});
+
+// routes for processing payments
+Route::post('/charge_simple', 'ChargeController@simple'); 
+
+//check to see if invoice exists
+Route::post('/existsInvoice', 'InvoiceController@existsInvoice')->name('existsInvoice');

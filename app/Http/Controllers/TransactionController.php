@@ -20,9 +20,11 @@ class TransactionController extends Controller
         // since the index doesnt need a specific model instance, authorize with class name as second arguement
     	$this->authorize('viewAny', Transaction::class);
 
-    	return view('transactions/index');
-    }
+        $transactions = Transaction::latest()->get();
 
+    	return view('transactions/index', compact('transactions'));
+    }
+/*
     public function show(Transaction $transaction) {
         // NOTE: This route is type hinted since the route segment, and Model type hint and Variable all share the same name. The instance of the ID of the transaction requested will be injected into this controller method. 
 
@@ -31,6 +33,7 @@ class TransactionController extends Controller
 
     	return view('transactions/show');
     }
+*/
 
     public function store(array $data, $invoice_id) {
         $invoice = Invoice::find($invoice_id);
@@ -40,4 +43,6 @@ class TransactionController extends Controller
 
         return view('transactions/index');
     }
+
+
 }

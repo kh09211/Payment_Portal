@@ -19,6 +19,7 @@ class CreateInvoicesTable extends Migration
             $table->string('name');
             $table->unsignedBigInteger('user_id')->nullable();
             $table->text('description');
+            $table->string('email')->nullable();
             $table->float('hours')->nullable();;
             $table->float('rate')->nullable();
             $table->float('price')->nullable();
