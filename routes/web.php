@@ -28,11 +28,6 @@ Route::get('/invoices/{invoice}/mail', 'InvoiceController@mail');
 
 Route::resource('/invoices','InvoiceController');
 
-// route invoices numbers on the / to the invoice view using a redirect
-Route::get('/{invoice}',function($invoice) {
-	return redirect('/invoices/' . $invoice);
-});
-
 Route::get('/transactions', 'TransactionController@index');
 Route::get('/transactions/{transaction}', 'TransactionController@show');
 Route::post('/transactions', 'TransactionController@store');
@@ -43,3 +38,9 @@ Route::post('/charge_simple', 'ChargeController@simple');
 
 //check to see if invoice exists
 Route::post('/existsInvoice', 'InvoiceController@existsInvoice')->name('existsInvoice');
+
+// route invoices numbers on the / to the invoice view using a redirect
+// needs to be last
+Route::get('/{invoice}',function($invoice) {
+	return redirect('/invoices/' . $invoice);
+});

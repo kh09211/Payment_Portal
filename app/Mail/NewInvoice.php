@@ -31,8 +31,8 @@ class NewInvoice extends Mailable
     public function build()
     {
         $invoice = $this->invoice;
-        return $this->to($invoice->email)->bcc('kyle@kyleweb.dev')
-            ->subject('Kyleweb.dev - New Invoice #' . $this->invoice->id . " is now available to view and pay!")
+        return $this->to($this->invoice->email)->bcc(env('ADMIN_EMAIL'))
+            ->subject('New Invoice #' . $this->invoice->id . " is now available to view and pay! - Kyleweb.dev")
             ->view('mail.newInvoice', compact('invoice'));
     }
 }

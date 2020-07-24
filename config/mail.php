@@ -88,6 +88,12 @@ return [
         'name' => env('MAIL_FROM_NAME', 'Example'),
     ],
 
+
+    // ADDED TO MAKE SURE REPLIES GO TO ADMIN EMAIL
+    'reply_to' => ['address' => env('ADMIN_EMAIL'), 'name' => 'Kyleweb.dev'],
+
+
+
     /*
     |--------------------------------------------------------------------------
     | Markdown Mail Settings

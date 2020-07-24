@@ -344,5 +344,7 @@ class InvoiceController extends Controller
         // send invoice notification email to the customer
 
         mail::send(new \App\Mail\NewInvoice($invoice));
+
+        return back()->with('status','Email sent!');
     }
 }

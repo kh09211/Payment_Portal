@@ -1,5 +1,4 @@
-testing
-sadlgijsldgk
-asdkljhslg
-<h1 class="text-center">testing</h1>
-<php? var_dump($invoice) ?>
+<html>
+	<h1 style="text-align: center">Invoice #</h1>
+	{{ $invoice->name }}
+</html>
