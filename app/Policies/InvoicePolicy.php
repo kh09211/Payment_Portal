@@ -19,7 +19,7 @@ class InvoicePolicy
 
     public function before(User $user) {
         // This function runs first before the other policies. This allows the app to confirm that the signed in user is the Admin and then gives access to all methods in the Policy
-        if ($user->email == env('ADMIN_EMAIL')) {
+        if ($user->email == config('app.ADMIN_EMAIL')) {
 
             return true;
         }
@@ -29,7 +29,7 @@ class InvoicePolicy
     public function viewAny(User $user)
     {
         // Function not needed now that before function above is run first
-        // return $user->email == env('ADMIN_EMAIL');
+        // return $user->email == config('app.ADMIN_EMAIL');
     }
 
     /**
@@ -55,7 +55,7 @@ class InvoicePolicy
     public function create(User $user)
     {
         // Function not needed now that before function above is run first
-        // return $user->email == env('ADMIN_EMAIL');
+        // return $user->email == config('app.ADMIN_EMAIL');
     }
 
     /**
@@ -68,7 +68,7 @@ class InvoicePolicy
     public function update(User $user, Invoice $invoice)
     {
         // Function not needed now that before function above is run first
-        // return $user->email == env('ADMIN_EMAIL');
+        // return $user->email == config('app.ADMIN_EMAIL');
     }
 
     /**
@@ -81,7 +81,7 @@ class InvoicePolicy
     public function delete(User $user, Invoice $invoice)
     {
         // Function not needed now that before function above is run first
-        // return $user->email == env('ADMIN_EMAIL');
+        // return $user->email == config('app.ADMIN_EMAIL');
     }
 
     /**
@@ -94,7 +94,7 @@ class InvoicePolicy
     public function restore(User $user, Invoice $invoice)
     {
         // Function not needed now that before function above is run first
-        // return $user->email == env('ADMIN_EMAIL');
+        // return $user->email == config('app.ADMIN_EMAIL');
     }
 
     /**
@@ -107,6 +107,6 @@ class InvoicePolicy
     public function forceDelete(User $user, Invoice $invoice)
     {
         // Function not needed now that before function above is run first
-        // return $user->email == env('ADMIN_EMAIL');
+        // return $user->email == config('app.ADMIN_EMAIL');
     }
 }

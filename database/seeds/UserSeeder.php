@@ -13,12 +13,12 @@ class UserSeeder extends Seeder
     {
         \App\User::create([
             'name' => 'Admin',
-            'email' => env('ADMIN_EMAIL'),
-            'password' => env('ADMIN_PASS_HASH')]);
+            'email' => config('app.ADMIN_EMAIL'),
+            'password' => config('app.ADMIN_PASS_HASH')]);
 
         \App\User::create([
-            'name' => env('TEST_USER_NAME'),
-            'email' => env('TEST_USER_EMAIL'),
-            'password' => env('TEST_USER_PASS_HASH')]);
+            'name' => config('app.TEST_USER_NAME'),
+            'email' => config('app.TEST_USER_EMAIL'),
+            'password' => config('app.TEST_USER_PASS_HASH')]);
     }
 }

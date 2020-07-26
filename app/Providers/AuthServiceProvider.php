@@ -28,7 +28,7 @@ class AuthServiceProvider extends ServiceProvider
         //This defines the gate for only the admin user
         Gate::define('see-admin', function($user) {
             
-            return $user->email == env('ADMIN_EMAIL'); 
+            return $user->email == config('app.ADMIN_EMAIL'); 
         });
     }
 }

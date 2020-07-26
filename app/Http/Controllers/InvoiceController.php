@@ -105,7 +105,7 @@ class InvoiceController extends Controller
 
         // if already paid for, create a transaction record at the same time
         if ($data['paid']) {
-            \App\Transaction::createTransaction($data['id'], 'other/cash');
+            \App\Transaction::createTransaction($data['id'], 'Other/Cash');
         }
 
         // return to show the recently created invoice and where itemized task can be then added
@@ -204,9 +204,9 @@ class InvoiceController extends Controller
 
             $invoice->save();
 
-            // if already paid for, create a transaction record at the same time
+            // if edited to paid for, create a transaction record at the same time
             if ($data['paid']) {
-                \App\Transaction::createTransaction($invoice->id, 'other/cash');
+                \App\Transaction::createTransaction($invoice->id, 'Other/Cash');
             }
         }
 

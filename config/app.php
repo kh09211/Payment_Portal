@@ -230,4 +230,29 @@ return [
 
     ],
 
+    /*
+    |--------------------------------------------------------------------------
+    | Variables needed for refrence in the app
+    |--------------------------------------------------------------------------
+    |
+    |
+    |
+    */
+
+    'ADMIN_EMAIL' => env('ADMIN_EMAIL'),
+
+    'ADMIN_PASS_HASH' => env('ADMIN_PASS_HASH'),
+
+    'TEST_USER_NAME' => env('TEST_USER_NAME'),
+
+    'TEST_USER_EMAIL' => env('TEST_USER_EMAIL'),
+
+    'TEST_USER_PASS_HASH' => env('TEST_USER_PASS_HASH'),
+
+    'STRIPE_KEY' => env('STRIPE_KEY'),
+
+    'STRIPE_SECRET' => env('STRIPE_SECRET'),
+
+    "PAYPAL_CLIENT_ID" => env('PAYPAL_CLIENT_ID'),
+
 ];

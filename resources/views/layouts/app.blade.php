@@ -12,6 +12,7 @@
     <!-- Scripts -->
     <script src="https://js.stripe.com/v3/" type="text/javascript"></script>
     <script src="{{ asset('js/app.js') }}" defer></script>
+    <script src="https://www.paypal.com/sdk/js?client-id={{ config('app.PAYPAL_CLIENT_ID') }}&disable-funding=credit,card"></script>
    
 
     <!-- Fonts -->
@@ -91,7 +92,7 @@
             </div>
         </nav>
         <div class="divider"></div>
-        <main class="py-4">
+        <main class="py-4 mt-2">
             @yield('content')
         </main>
         <footer>

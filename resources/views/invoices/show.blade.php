@@ -34,6 +34,20 @@
     input.w-100:focus {
       box-shadow: 0 1px 3px 0 #3490dc; /* works properly */
     }
+
+    .disclaimer {
+        font-size: 10px;
+        margin: 0 10% 0 10%;
+        line-height: 10px;
+    }
+
+    @media screen and (max-width: 400px) {
+        h5 {
+            font-size: 15px;
+        }
+    }
+
+
 </style>
 @endsection
 
@@ -45,11 +59,11 @@
                 <div class="card-header">
                     <div class="row justify-content-between">
                         <div class="ml-2">INVOICE #<span id="invoice-id">{{ $invoice->id }}</span></div>
-                        <div class="mr-2">Last Update: {{ $invoice->updated_at->format('m-d-y') }} </div>
+                        <div class="mr-2">Last Updated: {{ $invoice->updated_at->format('m-d-y') }} </div>
                     </div>
                 </div>
 
-                <div class="card-body">
+                <div class="card-body mt-2">
                     @if (session('status'))
                         <div class="alert alert-danger" role="alert">
                             {{ session('status') }}
@@ -184,7 +198,7 @@
                                     <h5 class="text-danger text-right">Amount due: </h5>
                                 </div>
                                 <div class="col-8">
-                                    <h5 class="text-danger">${{ number_format($invoice->price, 2) }}</h5>
+                                    <h5 id="price" class="text-danger">${{ number_format($invoice->price, 2) }}</h5>
                                 </div>
                             </div>
                         @endif
@@ -196,16 +210,20 @@
                             {{-- <hr class="mx-1"> --}}
                             <div class="mt-4 mb-3"></div>
                             <div class="row mt-2 align-items-center border pt-4 pb-1 mx-1">
-                                <div class="col-12 justify-content-center pb-2">
-                                  <div class="row justify-content-center d-flex my-1">
-            {{--
-                                    <div class="h5 mr-2"><a href="#">Sign in with Google</a></div>
-                                    <div class="h5">or</div>
-              --}}
-                                    <div class="h5 ml-2">Checkout as Guest:</div>
+                                <div class="col-12 pb-2">
+                                  <div class="row justify-content-center mb-1">
+            
+                                    <div class="col-md-6 mb-2 text-center">
+                                        <div id="paypal-button-container"></div>
+                                    </div>
+                                    <div class="col-7 text-center">or</div>
+                                    <div class="col-12 my-2 text-center">
+                                        <div class="h5">Checkout as Guest:</div>
+                                    </div>
+
                                   </div>
                                 </div>
-                                <div class="col-12 mt-2">
+                                <div class="col-12">
                                   <label class="h5">Cardholder Name: </label>
                                 </div>
                                 <div class="col-12">
@@ -225,14 +243,22 @@
                                 <div class="col-12 mt-3">
                                   <label class="h5">Email for Receipt (optional): </label>
                                 </div>
+
+
                                 <div class="col-12">
-                                  <input type="email" id="email" class="form-control w-100" placeholder="Email Address">
+                                  <input type="email" id="email-guest" class="form-control w-100" placeholder="Email Address">
+                                
+                                    <span id="email-guest-error" class="d-none text-danger ml-3" role="alert"></span>
                                 </div>
+
+
+
                                 <div class="col-12 text-center">
-                                  <button class ="btn btn-outline-primary mt-4" id="card-button">
+                                    <div class="disclaimer mt-4">By clicking the process payment button below, you agree to instantly charge this card for the amount due shown in red above. Transactions are processed through Stripe and cards are not seen or stored by kyleweb.dev.</div>
+                                    <button class ="btn btn-outline-primary mt-3" id="card-button">
                                     Process Payment
-                                  </button>
-                                  <div id="processing" class="invisible mt-2">Processing your payment. Please wait...</div>
+                                    </button>
+                                    <div id="processing" class="invisible mt-2">Processing your payment. Please wait...</div>
                                 </div>
                             </div>
                         @endcannot
@@ -242,15 +268,52 @@
             </div>
         </div>
     </div>
-    <div id="stripe-key" style="display: none;">{{ env('STRIPE_KEY')}}</div>
+    <div id="stripe-key" style="display: none;">{{ config('app.STRIPE_KEY')}}</div>
 </div>
 @endsection
 
 @push('js')
     <script type="text/javascript">
-    const invoiceId = document.getElementById('invoice-id').innerHTML;
+        /*----------PAYPAL CHECKOUT BUTTONS AND OPTIONS----------*/
 
-    const stripeKey = document.getElementById('stripe-key').innerHTML
+    // get the price and use a regex to remove the $ symbol
+    const price = document.getElementById('price').innerHTML.match(/[^$]/g).join("");
+    paypal.Buttons({
+            createOrder: function(data, actions) {
+              return actions.order.create({
+                purchase_units: [{
+                  amount: {
+                    value: price
+                  }
+                }]
+              });
+            },
+            onApprove: function(data, actions) {
+
+              return actions.order.capture().then(function(details) {
+                //alert('Paypal transaction completed by ' + details.payer.name.given_name);
+
+                // ajax request to the back end with invoice id to set paid & email me
+                axios.post('/charge_paypal', {'invoiceId': invoiceId}).then(res => {
+                    if (res.data = 'succeeded') {
+                        location.reload(); // reload the page to show session data
+                    } 
+                }).catch(function (error) {
+                    console.log(error)
+                });
+
+              });
+            }
+          }).render('#paypal-button-container'); // Display payment options on your web page
+
+
+
+        /*------------ STRIPE PAYMENT THROUGH GUEST CHECKOUT ------------*/
+
+    // get the variables passes through the DOM from laravel
+    const invoiceId = document.getElementById('invoice-id').innerHTML;
+    const stripeKey = document.getElementById('stripe-key').innerHTML;
+    
     const stripe = Stripe(stripeKey);
 
     const elements = stripe.elements();
@@ -263,6 +326,8 @@
 
     cardButton.addEventListener('click', async (e) => {
         cardButton.disabled = true; // disable the button so payment cannot be resubmitted
+        const emailGuest = document.getElementById('email-guest').value; // get email from the input field
+
         document.getElementById('processing').classList.remove('invisible'); // make the processing pmt text visible
         const { paymentMethod, error } = await stripe.createPaymentMethod(
             'card', cardElement, {
@@ -273,18 +338,25 @@
         if (error) {
             console.log(error);
         } else {
-            console.log(paymentMethod.id);
 
             // use axios to send the guest charge to the server
-            axios.post('/charge_simple', {'paymentMethodId' : paymentMethod.id, 'invoiceId' : invoiceId}).then(res => {
+            axios.post('/charge_simple', {'paymentMethodId' : paymentMethod.id, 'invoiceId' : invoiceId, 'emailGuest': emailGuest}).then(res => {
                 if (res.data = 'succeeded') {
-                    location.reload(); // reload the page
+                    location.reload(); // reload the page to show session data
                 } 
             }).catch(function (error) {
+                if (error.response.data.errors.emailGuest) {
+                    document.getElementById('email-guest').classList.add('is-invalid');
+                    document.getElementById('email-guest-error').innerHTML = 'Please enter a valid email address.';
+                    document.getElementById('processing').innerHTML = 'Please re-submmit after making changes';
+                    document.getElementById('email-guest-error').classList.toggle('d-none');
+                    cardButton.disabled = false;
+                } else {
                 let processingError = document.getElementById('processing');
                     processing.innerHTML = "There has been an error. Please contact kyle@kyleweb.dev";
                     processing.classList.add('text-danger');
                 console.log(error);
+                }
             });
         }
     });

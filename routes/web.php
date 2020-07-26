@@ -25,6 +25,7 @@ Route::get('/home', 'HomeController@index')->name('home');
 
 // bind invoices to the mail route using 'implicit route model binding'
 Route::get('/invoices/{invoice}/mail', 'InvoiceController@mail');
+// Route::get('/transactions/{invoice}/mail', 'TransactionController@mail');
 
 Route::resource('/invoices','InvoiceController');
 
@@ -34,7 +35,8 @@ Route::post('/transactions', 'TransactionController@store');
 
 
 // routes for processing payments
-Route::post('/charge_simple', 'ChargeController@simple'); 
+Route::post('/charge_simple', 'ChargeController@simple');
+Route::post('/charge_paypal', 'ChargeController@paypal');
 
 //check to see if invoice exists
 Route::post('/existsInvoice', 'InvoiceController@existsInvoice')->name('existsInvoice');

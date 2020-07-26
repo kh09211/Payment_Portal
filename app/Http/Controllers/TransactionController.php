@@ -36,6 +36,9 @@ class TransactionController extends Controller
 */
 
     public function store(array $data, $invoice_id) {
+        // Not sure if this function is being used now that transactions are being created upon payment using the model statuc class createTransaction
+
+
         $invoice = Invoice::find($invoice_id);
 
         // since the transaction create method doesnt need a specific model instance, authorize with class name as second arguement
@@ -43,6 +46,5 @@ class TransactionController extends Controller
 
         return view('transactions/index');
     }
-
 
 }
