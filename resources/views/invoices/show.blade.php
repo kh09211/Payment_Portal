@@ -277,6 +277,10 @@
 
 @push('js')
     <script type="text/javascript">
+        // import axios for use in production env
+        import axios from 'axios';
+
+
         /*----------PAYPAL CHECKOUT BUTTONS AND OPTIONS----------*/
 
     // get the price and use a regex to remove the $ symbol
