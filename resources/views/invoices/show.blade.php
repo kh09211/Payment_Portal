@@ -47,6 +47,9 @@
         }
     }
 
+    .form-control:valid {
+      background-color:  #fff!important;
+    }
 
 </style>
 @endsection
@@ -213,7 +216,7 @@
                                 <div class="col-12 pb-2">
                                   <div class="row justify-content-center mb-1">
             
-                                    <div class="col-md-6 mb-2 text-center">
+                                    <div class="col-md-6 mt-1 mb-2 text-center">
                                         <div id="paypal-button-container"></div>
                                     </div>
                                     <div class="col-7 text-center">or</div>
@@ -324,6 +327,9 @@
     const cardHolderName = document.getElementById('card-holder-name');
     const cardButton = document.getElementById('card-button');
 
+    // submit button disabled until valid card entered
+    cardButton.disabled = true;
+
     cardButton.addEventListener('click', async (e) => {
         cardButton.disabled = true; // disable the button so payment cannot be resubmitted
         const emailGuest = document.getElementById('email-guest').value; // get email from the input field
@@ -346,19 +352,30 @@
                 } 
             }).catch(function (error) {
                 if (error.response.data.errors.emailGuest) {
+                    // the email address was invalid
                     document.getElementById('email-guest').classList.add('is-invalid');
                     document.getElementById('email-guest-error').innerHTML = 'Please enter a valid email address.';
                     document.getElementById('processing').innerHTML = 'Please re-submmit after making changes';
                     document.getElementById('email-guest-error').classList.toggle('d-none');
                     cardButton.disabled = false;
                 } else {
-                let processingError = document.getElementById('processing');
-                    processing.innerHTML = "There has been an error. Please contact kyle@kyleweb.dev";
-                    processing.classList.add('text-danger');
-                console.log(error);
+                    // something else went wrong
+                    let processingError = document.getElementById('processing');
+                        processing.innerHTML = "An error occurred. Refresh and retry, or contact kyle@kyleweb.dev.";
+                        processing.classList.add('text-danger');
+                    console.log(error);
                 }
             });
         }
+    });
+
+    // listener to toggle the payment submit button based on card valid status
+    cardElement.on('change', function(event) {
+      if (event.complete) {
+        cardButton.disabled = false;
+      } else if (event.error) {
+        cardButton.disabled = true;
+      }
     });
     </script>
 @endpush

@@ -17,7 +17,7 @@
 
 <div class="container">
 
-    <ul class="nav justify-content-center mb-3">
+    <ul class="nav justify-content-center mt-n3 mb-3">
       <li class="nav-item">
         <a class="nav-link" href="/invoices">Unpaid Invoices</a>
       </li>
