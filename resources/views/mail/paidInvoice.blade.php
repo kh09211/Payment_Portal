@@ -35,7 +35,7 @@
 	                <h5 class="unbold ml-3" style="margin:3px 0 0 0; font-size:16px; padding:0; margin-left:30px; font-weight:400">Date/Time: </h5>
 	            </div>
 	            <div class="col-8 " style="width:70%" width="70%">
-	                <h5 class="unbold description ml-3 mr-3" style="margin:3px 0 0 0; font-size:16px; padding:0; margin-left:30px; font-weight:400">{{ date(DATE_RSS) }}</h5>
+	                <h5 class="unbold description ml-3 mr-3" style="margin:3px 0 0 0; font-size:16px; padding:0; margin-left:30px; font-weight:400">{{ now() }} EST</h5>
 	            </div>
 	        </div>
 
