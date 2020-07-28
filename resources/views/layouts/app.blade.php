@@ -60,6 +60,10 @@
                         
                         <!-- Authentication Links -->
                         @guest
+                            <!-- About page link -->
+                            <li class="nav-item text-center">
+                                <a class="nav-link" href="/about">{{ __('About') }}</a>
+                            </li>
     {{--
                             <li class="nav-item">
                                 <a class="nav-link" href="{{ route('login') }}">{{ __('Login') }}</a>

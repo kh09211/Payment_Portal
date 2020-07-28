@@ -22,6 +22,9 @@ Route::get('/', function () {
 Auth::routes();
 
 Route::get('/home', 'HomeController@index')->name('home');
+Route::get('/about', function() {
+	return view('about');
+});
 
 // bind invoices to the mail route using 'implicit route model binding'
 Route::get('/invoices/{invoice}/mail', 'InvoiceController@mail');
