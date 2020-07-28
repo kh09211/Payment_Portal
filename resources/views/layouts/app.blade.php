@@ -8,7 +8,8 @@
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
     <title>{{ config('app.name', 'Laravel') }}</title>
-
+    <link rel="icon" type="image/png" href="favicon.ico">
+    
     <!-- Scripts -->
     <script src="https://js.stripe.com/v3/" type="text/javascript"></script>
     <script src="{{ asset('js/app.js') }}" defer></script>
