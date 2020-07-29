@@ -16,8 +16,8 @@
 	<h1 style="margin: 0; margin-top:30px; text-align:center;" class="mt-3" align="center">
 			Invoice # {{ $invoice->id }} from Kyleweb.dev
 	</h1>
-	<h3 style="margin: 0; margin-top: 10px; margin-bottom: 30px; text-align:center; color: red;" class="mt-3" align="center">
-			has been paid in full, Thank you!
+	<h3 style="margin: 0; margin-top: 10px; margin-bottom: 30px; text-align:center; color: green;" class="mt-3" align="center">
+			has been paid, Thank you!
 	</h3>
 
 	<div class="card-body mb-3" style="margin-bottom:30px">
@@ -50,7 +50,7 @@
 
 	        
 
-	        <p class="ml-3 mr-3" style="margin:0; text-align:left; text-indent:15px; margin-left:30px; margin-right:30px; margin-top: 30px;" align="left">This email serves only as a receipt of payment for the above services rendered. For any quesions regarding this transaction, please contact kyle@kyleweb.dev. Thank you for your payment, your business is well appreciated!</p>
+	        <p class="ml-3 mr-3" style="margin:0; text-align:left; text-indent:15px; margin-left:30px; margin-right:30px; margin-top: 30px;" align="left">This email serves only as a receipt of payment for the above services rendered. For any quesions regarding this transaction, please contact kyle@kyleweb.dev. Thank you for your payment, your business is very much appreciated!</p>
 	        <p style="margin:0; text-align:left; text-indent:15px; margin-left:60px; margin-top: 5px;" align="left"> Sincerely, Kyle Hopkins</p>
 	</div>
 

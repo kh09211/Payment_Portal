@@ -123,7 +123,7 @@
 	            	</a>
 	            </div>
 
-	            <p class="ml-3 mr-3" style="margin:0; text-align:left; text-indent:15px; margin-left:30px; margin-right:30px" align="left">This email is an automatically generated invoice for the above services rendered. For any quesions regarding this invoice or payments, please contact kyle@kyleweb.dev. Thank you, your business is well appreciated!</p>
+	            <p class="ml-3 mr-3" style="margin:0; text-align:left; text-indent:15px; margin-left:30px; margin-right:30px" align="left">This email is an automatically generated invoice for the above services rendered. For any quesions regarding this invoice or payments, please contact kyle@kyleweb.dev. Thank you, your business is much appreciated!</p>
 	            <p style="margin:0; text-align:left; text-indent:15px; margin-left:60px; margin-top: 5px;" align="left"> Sincerely, Kyle Hopkins</p>
 	    </div>
 
